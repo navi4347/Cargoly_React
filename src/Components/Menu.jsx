@@ -13,6 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
@@ -20,8 +21,9 @@ import MailIcon from '@mui/icons-material/Mail';
 import Portpair from '../Pages/Admin/Portpair';
 import CarrierMaster from '../Pages/Admin/CarrierMaster';
 import CarrierBuy from '../Pages/Admin/CarrierBuy';
+import './Style.css'
 
-const drawerWidth = 240;
+const drawerWidth = 210;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -71,7 +73,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [selectedContent, setSelectedContent] = React.useState(null);
+  const [selectedContent, setSelectedContent] = React.useState('Portpair');
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -80,7 +82,6 @@ export default function PersistentDrawerLeft() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
   const handleListItemClick = (content) => {
     setSelectedContent(content);
   };
@@ -97,7 +98,6 @@ export default function PersistentDrawerLeft() {
         return null;
     }
   };
-
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -131,34 +131,40 @@ export default function PersistentDrawerLeft() {
         open={open}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+        <Typography variant="h5" sx={{ my: 2 }}>
+        CARGOLY
+          </Typography>
+          <IconButton onClick={handleDrawerClose} style={{ color: 'white' }}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
-          {['Portpair', 'CarrierMaster', 'CarrierBuy'].map((text) => (
+        {['Portpair', 'CarrierMaster', 'CarrierBuy'].map((text) => (
             <ListItem
-              key={text}
-              disablePadding
-              button
-              onClick={() => handleListItemClick(text)}
-            >
-              <ListItemIcon>
+             key={text} 
+            disablePadding
+            button
+            onClick={() => handleListItemClick(text)}>
+              <ListItemButton>
+                <ListItemIcon style={{ color: 'white' }}>
                 <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary={text} />
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
             </ListItem>
           ))}
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text) => (
+          {['All mail', 'Trash', 'Spam'].map((text, index) => (
             <ListItem key={text} disablePadding>
-              <ListItemIcon>
-                <MailIcon />
-              </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemButton>
+                <ListItemIcon style={{ color: 'white' }}>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
             </ListItem>
           ))}
         </List>
