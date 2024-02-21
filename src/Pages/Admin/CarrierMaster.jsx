@@ -1,7 +1,7 @@
 
 const CarrierMaster = () => {
   return (
-    <div>CarrierMaster 2</div>
+    <div>Carrier Master</div>
   )
 }
 

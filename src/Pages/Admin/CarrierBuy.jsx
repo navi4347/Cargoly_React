@@ -1,7 +1,7 @@
 
 const CarrierBuy = () => {
   return (
-    <div>CarrierBuy 3</div>
+    <div>Carrier Buy</div>
   )
 }
 

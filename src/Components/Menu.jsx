@@ -21,9 +21,14 @@ import MailIcon from '@mui/icons-material/Mail';
 import Portpair from '../Pages/Admin/Portpair';
 import CarrierMaster from '../Pages/Admin/CarrierMaster';
 import CarrierBuy from '../Pages/Admin/CarrierBuy';
+import Booking from '../Pages/Admin/Booking';
+import SchedulingMaster from '../Pages/Admin/SchedulingMaster';
+import Quotation from '../Pages/Admin/Quotation';
+import CarrierAllocation from '../Pages/Admin/CarrierAllocation';
+import InternalAllocation from '../Pages/Admin/InternalAllocation';
 import './Style.css'
 
-const drawerWidth = 210;
+const drawerWidth = 250;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -90,10 +95,20 @@ export default function PersistentDrawerLeft() {
     switch (selectedContent) {
       case 'Portpair':
         return <Portpair />;
-      case 'CarrierMaster':
+      case 'Carrier Master':
         return <CarrierMaster />;
-      case 'CarrierBuy':
+      case 'Carrier Buy':
         return <CarrierBuy />;
+        case 'Booking':
+          return <Booking />;
+          case 'Scheduling Master':
+          return <SchedulingMaster />;
+          case 'Quotation':
+          return <Quotation />;
+          case 'Carrier Allocation':
+          return <CarrierAllocation />;
+          case 'Internal Allocation':
+          return <InternalAllocation />;
       default:
         return null;
     }
@@ -131,7 +146,7 @@ export default function PersistentDrawerLeft() {
         open={open}
       >
         <DrawerHeader>
-        <Typography variant="h5" sx={{ my: 2 }}>
+        <Typography variant="h4" sx={{ my: 2 }}>
         CARGOLY
           </Typography>
           <IconButton onClick={handleDrawerClose} style={{ color: 'white' }}>
@@ -140,7 +155,7 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-        {['Portpair', 'CarrierMaster', 'CarrierBuy'].map((text) => (
+        {['Portpair', 'Carrier Master', 'Carrier Buy'].map((text) => (
             <ListItem
              key={text} 
             disablePadding
@@ -157,11 +172,24 @@ export default function PersistentDrawerLeft() {
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
+          {['Booking', 'Scheduling Master', 'Quotation'].map((text) => (
+            <ListItem key={text} disablePadding  onClick={() => handleListItemClick(text)}>
               <ListItemButton>
                 <ListItemIcon style={{ color: 'white' }}>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <MailIcon />
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          {['Carrier Allocation', 'Internal Allocation', 'Logout'].map((text) => (
+            <ListItem key={text} disablePadding  onClick={() => handleListItemClick(text)}>
+              <ListItemButton>
+                <ListItemIcon style={{ color: 'white' }}>
+                <MailIcon />
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
@@ -169,6 +197,7 @@ export default function PersistentDrawerLeft() {
           ))}
         </List>
       </Drawer>
+      
       <Main open={open}>
         <DrawerHeader />
         {getContentComponent()}

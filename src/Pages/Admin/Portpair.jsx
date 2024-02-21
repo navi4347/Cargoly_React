@@ -1,7 +1,7 @@
 
 const Portpair = () => {
   return (
-    <div>Portpair 1</div>
+    <div>Portpair</div>
   )
 }
 
