@@ -1,0 +1,26 @@
+.formContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+  
+  .formField {
+    margin-right: 20px !important; 
+  }
+ 
+  .slidea .slideb{
+    width: 100%; 
+  }
+
+  .save form {
+  flex-direction: column;
+  display: flex;
+justify-content: center;
+align-items: center; 
+  }
+  .save form .data{
+    margin-top: 30px;
+    width: 30%;
+  }

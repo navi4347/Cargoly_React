@@ -3,4 +3,8 @@
     color: #fff !important;
     border: none !important;
     }
-  
+.css-18vqli9-MuiPaper-root-MuiAppBar-root,
+.css-ciy9n4-MuiPaper-root-MuiAppBar-root{
+    background-color: #ffffff !important;
+    color: #1976d2 !important;
+}
