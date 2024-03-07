@@ -8,3 +8,41 @@
     background-color: #ffffff !important;
     color: #1976d2 !important;
 }
+.login {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  height: 100dvh;
+  }
+  
+  .login .left {
+    flex: 1;
+    background-image: url('../assets/cargoly.png'); 
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .login .right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .login .right form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .login .right .kgf {
+    margin-bottom: 25px;
+    width:130%;
+  }
+  
+  .login .right .wide-select {
+    margin-bottom: 25px;
+    width:130%;
+  }
+  
