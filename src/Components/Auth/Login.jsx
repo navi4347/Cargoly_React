@@ -20,7 +20,7 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await fetch('http://127.0.0.1:8080/api/login', {
         method: 'POST',
@@ -29,23 +29,29 @@ function Login() {
         },
         body: JSON.stringify({ username, password }),
       });
-
-      if (response.ok) {
+  
+      if (!response.ok) {
+        throw new Error('Failed to log in');
+      }
+  
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
         const data = await response.json();
         setToken(data.token);
-        setError('');
-        navigate('/Menu');
       } else {
-        const data = await response.json();
-        setToken('');
-        setError(data.error);
+        const text = await response.text();
+        setToken(text.trim()); 
       }
+  
+      setError('');
+      navigate('/Menu');
     } catch (err) {
       console.error('Error:', err);
-      setToken('');
       setError('An error occurred. Please try again later.');
     }
   };
+  
+  
 
   return (
     <div className='login'>
