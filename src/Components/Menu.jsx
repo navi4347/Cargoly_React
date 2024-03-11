@@ -39,6 +39,7 @@ import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Avatar from '@mui/material/Avatar';
 import Adminpic from '../assets/2.jpg'
+import { useNavigate } from 'react-router-dom';
 import './Style.css'
 const drawerWidth = 250;
 
@@ -91,6 +92,7 @@ export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [selectedContent, setSelectedContent] = React.useState('Portpair');
+  const navigate = useNavigate(); 
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -104,6 +106,9 @@ export default function PersistentDrawerLeft() {
     setSelectedContent(content);
   };
 
+const handleLogout = () => {
+    navigate('/'); 
+  };
   const menuItems = [
     { text: 'Portpair', icon: <AnchorIcon /> },
     { text: 'Carrier Master', icon: <AccountBalanceIcon /> },
@@ -196,7 +201,13 @@ export default function PersistentDrawerLeft() {
               key={text}
               disablePadding
               button
-              onClick={() => handleListItemClick(text)}
+              onClick={() => {
+                if (text === 'Logout') {
+                  handleLogout();
+                } else {
+                  handleListItemClick(text);
+                }
+              }}
               sx={{ marginBottom: '8px' }}
             >
               <ListItemButton>
