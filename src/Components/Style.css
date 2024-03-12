@@ -8,6 +8,9 @@
     background-color: #ffffff !important;
     color: #1976d2 !important;
 }
+
+
+
 .Auth{
     display: flex;
     justify-content: space-between;
@@ -90,11 +93,12 @@ margin-right: 50px;
   font-size: 24px;
 }
 
-.icon-wrapper span {
+ .icon-wrapper  span{
   display: block;
-  font-size: 14px; 
-  margin-top: 5px; 
-  color: #8a8888;
+  margin-top: 20px; 
+  color: #000;
+  font-family: "Google Sans", arial, sans-serif;
+ font-size: 14px;
 }
 .icon-wrapper span:hover{
 color: #1976d2;

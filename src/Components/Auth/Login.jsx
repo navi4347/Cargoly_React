@@ -4,8 +4,8 @@ import {
   Button,
   TextField,
 } from '@mui/material';
+import GoogleAuth  from '../SSO/GoogleAuth';
 
-import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import AppleIcon from '@mui/icons-material/Apple';
 import KeyIcon from '@mui/icons-material/Key';
@@ -47,11 +47,20 @@ function Login() {
       navigate('/Menu');
     } catch (err) {
       console.error('Error:', err);
+      setUsername('');
+      setPassword('');
       setError('An error occurred. Please try again later.');
+
     }
   };
   
-  
+  const handleLoginSuccess = () => {
+    console.log('Login success');
+  };
+
+  const handleLoginError = (error) => {
+    console.error('Login error:', error);
+  };
 
   return (
     <div className='login'>
@@ -85,7 +94,7 @@ function Login() {
           </Button>
         </form>
         {token && <p>Token: {token}</p>}
-        {error && <p>{error}</p>}
+        {error && <p className="error-message">{error}</p>}
         <div className="striped">
 				<span className="striped-line"></span>
 				<span className="striped-text">Or Sign In With</span>
@@ -101,11 +110,12 @@ function Login() {
     <AppleIcon className="iconi" />
     <span>Apple</span>
   </div>
-  
+
   <div className="icon-wrapper">
-    <GoogleIcon className="iconi" />
-    <span>Google</span>
-  </div>
+  <GoogleAuth onSuccess={handleLoginSuccess} onError={handleLoginError} />
+  <span>Google</span>
+
+ </div>
   
   <div className="icon-wrapper">
     <FacebookIcon className="iconi" />
