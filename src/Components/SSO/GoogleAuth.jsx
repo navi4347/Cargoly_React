@@ -1,35 +1,33 @@
-import { GoogleLogin } from '@react-oauth/google';
-import '../Style.css';
-import { useNavigate } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom'; 
+import GoogleIcon from '@mui/icons-material/Google';
 
-const GoogleAuth = ({ onSuccess, onError }) => {
-  const navigate = useNavigate();
-
+const GoogleAuth = ({ onSuccess }) => {
+  const navigate = useNavigate(); 
   const handleSuccess = () => {
     if (typeof onSuccess === 'function') {
       onSuccess();
-      navigate('/Menu');
+      navigate('/Menu'); 
     } else {
       console.error('onSuccess is not a function');
     }
   };
 
+  const login = useGoogleLogin({
+    onSuccess: handleSuccess, 
+  });
+
   return (
-    <>
-      <GoogleLogin
-        clientId="556403120176-00stpvlv9kfjfph7kji6h0g5dp90nrm4.apps.googleusercontent.com"
-        onSuccess={handleSuccess}
-        onError={onError}
-        cookiePolicy={'single_host_origin'}
-      />
-    </>
+    <div className="icon-wrapper" onClick={login}>
+      <GoogleIcon className="iconi" />
+      <span>Google</span>
+    </div>
   );
 };
 
 GoogleAuth.propTypes = {
   onSuccess: PropTypes.func.isRequired,
-  onError: PropTypes.func.isRequired,
 };
 
 export default GoogleAuth;

@@ -3,11 +3,10 @@ import {
   Button,
   TextField,
 } from '@mui/material';
-
-import GoogleIcon from '@mui/icons-material/Google';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import AppleIcon from '@mui/icons-material/Apple';
-import KeyIcon from '@mui/icons-material/Key';
+import GoogleAuth  from '../SSO/GoogleAuth';
+import FacebookAuth from '../SSO/FacebookAuth';
+import AppleAuth from '../SSO/AppleAuth';
+import DomainAuth from '../SSO/DomainAuth';
 import '../Style.css';
 
 const SignUp = () => {
@@ -56,6 +55,13 @@ const SignUp = () => {
     }
   };
   
+  const handleLoginSuccess = () => {
+    console.log('Login success');
+  };
+
+  const handleLoginError = (error) => {
+    console.error('Login error:', error);
+  };
   
 
   return (
@@ -98,25 +104,22 @@ const SignUp = () => {
         <span className="striped-line"></span>
       </div>
       <div className="social">
-        <div className="icon-wrapper">
-          <KeyIcon className="iconi" />
-          <span>SSO</span>
-        </div>
+       
+  <div>
+    <DomainAuth  />
+  </div>
+  
+  <div>
+    <AppleAuth />
+  </div>
 
-        <div className="icon-wrapper">
-          <AppleIcon className="iconi" />
-          <span>Apple</span>
-        </div>
-
-        <div className="icon-wrapper">
-          <GoogleIcon className="iconi" />
-          <span>Google</span>
-        </div>
-
-        <div className="icon-wrapper">
-          <FacebookIcon className="iconi" />
-          <span>Facebook</span>
-        </div>
+  <div>
+  <GoogleAuth onSuccess={handleLoginSuccess} onError={handleLoginError} />
+ </div>
+  
+  <div>
+  <FacebookAuth />
+  </div>
       </div>
     </div>
   );

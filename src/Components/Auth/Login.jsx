@@ -5,10 +5,9 @@ import {
   TextField,
 } from '@mui/material';
 import GoogleAuth  from '../SSO/GoogleAuth';
-
-import FacebookIcon from '@mui/icons-material/Facebook';
-import AppleIcon from '@mui/icons-material/Apple';
-import KeyIcon from '@mui/icons-material/Key';
+import FacebookAuth from '../SSO/FacebookAuth';
+import AppleAuth from '../SSO/AppleAuth';
+import DomainAuth from '../SSO/DomainAuth';
 import '../Style.css';
 
 function Login() {
@@ -101,25 +100,20 @@ function Login() {
 				<span className="striped-line"></span>
 			</div>
       <div className="social">
-  <div className="icon-wrapper">
-    <KeyIcon className="iconi" />
-    <span>SSO</span>
+  <div>
+    <DomainAuth  />
   </div>
   
-  <div className="icon-wrapper">
-    <AppleIcon className="iconi" />
-    <span>Apple</span>
+  <div>
+    <AppleAuth />
   </div>
 
-  <div className="icon-wrapper">
+  <div>
   <GoogleAuth onSuccess={handleLoginSuccess} onError={handleLoginError} />
-  <span>Google</span>
-
  </div>
   
-  <div className="icon-wrapper">
-    <FacebookIcon className="iconi" />
-    <span>Facebook</span>
+  <div>
+  <FacebookAuth />
   </div>
 </div>
       </div>
