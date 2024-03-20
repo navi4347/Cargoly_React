@@ -1,9 +1,10 @@
-import AppleIcon from '@mui/icons-material/Apple';
+import AppleIcon from '../assets/Apple.svg'
+
 
 const AppleAuth = () => {
   return (
     <div className="icon-wrapper">
-    <AppleIcon className="iconi" />
+      <img src={AppleIcon} alt="Google Icon" className="iconi" />
     <span>Apple</span>
   </div>
   )

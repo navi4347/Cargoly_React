@@ -1,12 +1,36 @@
-import FacebookIcon from '@mui/icons-material/Facebook';
+import { FacebookProvider, LoginButton } from 'react-facebook';
 
-const FacebookAuth = () => {
+import FacebookIcon from '../assets/facebook.svg'
+
+export default function LoginButtonExample() {
+  function handleLogin() {
+  
+    console.log('Logging in with Facebook...');
+  }
+
+  function handleSuccess(response) {
+    console.log(response.status);
+   
+  }
+
+  function handleError(error) {
+    console.log(error);
+   
+  }
+
   return (
-    <div className="icon-wrapper">
-    <FacebookIcon className="iconi" />
-    <span>Facebook</span>
-  </div>
-  )
+    <FacebookProvider appId="709874471360845">
+      <LoginButton
+        scope="email"
+        onError={handleError}
+        onSuccess={handleSuccess}
+        style={{ border: 'none' }}
+      >
+        <div className="icon-wrapper" onClick={handleLogin}>
+        <img src={FacebookIcon} alt="Google Icon" className="iconi"  />
+          <span>Facebook</span>
+        </div>
+      </LoginButton>
+    </FacebookProvider>
+  );
 }
-
-export default FacebookAuth

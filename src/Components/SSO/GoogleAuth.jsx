@@ -1,7 +1,7 @@
 import { useGoogleLogin } from '@react-oauth/google';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom'; 
-import GoogleIcon from '@mui/icons-material/Google';
+import GoogleIcon from '../assets/Google.svg'
 
 const GoogleAuth = ({ onSuccess }) => {
   const navigate = useNavigate(); 
@@ -20,7 +20,7 @@ const GoogleAuth = ({ onSuccess }) => {
 
   return (
     <div className="icon-wrapper" onClick={login}>
-      <GoogleIcon className="iconi" />
+      <img src={GoogleIcon} alt="Google Icon" className="iconi" />
       <span>Google</span>
     </div>
   );

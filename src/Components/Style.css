@@ -99,7 +99,8 @@ margin-right: 50px;
 }
 
 .iconi {
-  font-size: 24px;
+ width: 24px;
+ height: 24px;
 }
 
  .icon-wrapper  span{
@@ -120,3 +121,4 @@ color: #1976d2;
   text-align: center !important;
   color: red;
 }
+
