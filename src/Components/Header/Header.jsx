@@ -5,42 +5,21 @@ import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import AnchorIcon from '@mui/icons-material/Anchor';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import LogoutIcon from '@mui/icons-material/Logout';
-import DirectionsBoatIcon from '@mui/icons-material/DirectionsBoat';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import LocalActivityIcon from '@mui/icons-material/LocalActivity';
-import KeyboardCommandKeyIcon from '@mui/icons-material/KeyboardCommandKey';
-import Portpair from '../Pages/Admin/Portpair';
-import CarrierMaster from '../Pages/Admin/CarrierMaster';
-import CarrierBuy from '../Pages/Admin/CarrierBuy';
-import Booking from '../Pages/Admin/Booking';
-import SchedulingMaster from '../Pages/Admin/SchedulingMaster';
-import Quotation from '../Pages/Admin/Quotation';
-import CarrierAllocation from '../Pages/Admin/CarrierAllocation';
-import InternalAllocation from '../Pages/Admin/InternalAllocation';
+
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Avatar from '@mui/material/Avatar';
-import Adminpic from '../assets/2.jpg'
+import Adminpic from '../../assets/2.jpg'
 import { useNavigate } from 'react-router-dom';
-import './Style.css'
+import '../../Components/Style.css'
 const drawerWidth = 250;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -91,7 +70,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [selectedContent, setSelectedContent] = React.useState('Portpair');
   const navigate = useNavigate(); 
 
   const handleDrawerOpen = () => {
@@ -102,53 +80,10 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
-  const handleListItemClick = (content) => {
-    setSelectedContent(content);
+  const handleAdmin = () => {
+    navigate('/Menu'); 
   };
 
-const handleLogout = () => {
-    navigate('/'); 
-  };
-
-  const handleSales = () => {
-    navigate('/Sales'); 
-  };
-
-  const menuItems = [
-    { text: 'Portpair', icon: <AnchorIcon /> },
-    { text: 'Carrier Master', icon: <AccountBalanceIcon /> },
-    { text: 'Carrier Buy', icon: <CurrencyExchangeIcon /> },
-    { text: 'Booking', icon: <LocalActivityIcon /> },
-    { text: 'Scheduling Master', icon: <CalendarMonthIcon /> },
-    { text: 'Quotation', icon: <LibraryBooksIcon /> },
-    { text: 'Carrier Allocation', icon: <DirectionsBoatIcon /> },
-    { text: 'Internal Allocation', icon: <KeyboardCommandKeyIcon /> },
-    { text: 'Logout', icon: <LogoutIcon /> },
-  ];
-  
-
-  const getContentComponent = () => {
-    switch (selectedContent) {
-      case 'Portpair':
-        return <Portpair />;
-      case 'Carrier Master':
-        return <CarrierMaster />;
-      case 'Carrier Buy':
-        return <CarrierBuy />;
-      case 'Booking':
-        return <Booking />;
-      case 'Scheduling Master':
-        return <SchedulingMaster />;
-      case 'Quotation':
-        return <Quotation />;
-      case 'Carrier Allocation':
-        return <CarrierAllocation />;
-      case 'Internal Allocation':
-        return <InternalAllocation />;
-      default:
-        return null;
-    }
-  };
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -168,8 +103,8 @@ const handleLogout = () => {
           
         </Typography>
           <Stack spacing={3} direction="row">
-          <Button variant="contained">ADMIN</Button>
-          <Button onClick={handleSales} variant="outlined">SALES</Button>
+          <Button onClick={handleAdmin} variant="contained">ADMIN</Button>
+          <Button  variant="outlined">SALES</Button>
           <Badge badgeContent={4} color="error">
           <NotificationsIcon color="action" />
           </Badge>
@@ -200,32 +135,11 @@ const handleLogout = () => {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List sx={{ marginTop: '6px' }}>
-          {menuItems.map(({ text, icon }) => (
-            <ListItem
-              key={text}
-              disablePadding
-              button
-              onClick={() => {
-                if (text === 'Logout') {
-                  handleLogout();
-                } else {
-                  handleListItemClick(text);
-                }
-              }}
-              sx={{ marginBottom: '8px' }}
-            >
-              <ListItemButton>
-                <ListItemIcon style={{ color: 'white' }}>{icon}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+     
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        {getContentComponent()}
+       
       </Main>
     </Box>
   );
