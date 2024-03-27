@@ -93,7 +93,7 @@ export default function CustomizedTables() {
     return header + csv;
   };
 
-  const csvData = convertToCSV(rows); // Assuming `rows` contains your table data
+  const csvData = convertToCSV(rows); 
 
   const blob = new Blob([csvData], { type: 'text/csv' });
 
