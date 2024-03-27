@@ -127,38 +127,52 @@ export default function CustomizedTables() {
     setIsPortcodeEditable(false);
   };
   
-  
-
   const handleSaveEdit = () => {
     if (formData.portcode) {
       axios.post('http://localhost:8080/api/portpair', formData)
-      .then(response => {
-        console.log("Data saved:", response.data);
-        setFormData({
-          country: '',
-          location: '',
-          portcode: ''
+        .then(response => {
+          console.log("Data saved:", response.data);
+          // Fetch updated data after saving
+          axios.get('http://127.0.0.1:8080/api/portpair')
+            .then(response => {
+              setRows(response.data);
+            })
+            .catch(error => {
+              console.error('Error fetching data:', error);
+            });
+          setFormData({
+            country: '',
+            location: '',
+            portcode: ''
+          });
+          setIsSlideBVisible(false);
+          setIsPortcodeEditable(true);
+        })
+        .catch(error => {
+          console.error("Error saving data:", error);
         });
-        setIsSlideBVisible(false);
-        setIsPortcodeEditable(true);
-      })
-      .catch(error => {
-        console.error("Error saving data:", error);
-      });
     } else {
       axios.put(`http://localhost:8080/api/portpair/${formData.portcode}`, formData)
-      .then(response => {
-        console.log("Data updated:", response.data);
-        setFormData({
-          country: '',
-          location: '',
-          portcode: ''
+        .then(response => {
+          console.log("Data updated:", response.data);
+          // Fetch updated data after updating
+          axios.get('http://127.0.0.1:8080/api/portpair')
+            .then(response => {
+              setRows(response.data);
+            })
+            .catch(error => {
+              console.error('Error fetching data:', error);
+            });
+          setFormData({
+            country: '',
+            location: '',
+            portcode: ''
+          });
+          setIsSlideBVisible(false);
+        })
+        .catch(error => {
+          console.error("Error updating data:", error);
         });
-        setIsSlideBVisible(false);
-      })
-      .catch(error => {
-        console.error("Error updating data:", error);
-      });
     }
   };
   
