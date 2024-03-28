@@ -4,7 +4,7 @@ import {
   TextField,
 } from '@mui/material';
 import GoogleAuth  from '../SSO/GoogleAuth';
-import FacebookAuth from '../SSO/FacebookAuth';
+import FacebookAuth from '../SSO/Micrososft';
 import AppleAuth from '../SSO/AppleAuth';
 import DomainAuth from '../SSO/DomainAuth';
 import '../Style.css';

@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import GoogleAuth  from '../SSO/GoogleAuth';
 import FacebookAuth from '../SSO/FacebookAuth';
-import AppleAuth from '../SSO/AppleAuth';
+import MicrososftAuth from '../SSO/Micrososft';
 import DomainAuth from '../SSO/DomainAuth';
 import '../Style.css';
 
@@ -105,7 +105,7 @@ function Login() {
   </div>
   
   <div>
-    <AppleAuth />
+    <MicrososftAuth onSuccess={handleLoginSuccess} onError={handleLoginError} />
   </div>
 
   <div>
@@ -113,7 +113,7 @@ function Login() {
  </div>
   
   <div>
-  <FacebookAuth />
+  <FacebookAuth onSuccess={handleLoginSuccess} onError={handleLoginError} />
   </div>
 </div>
       </div>
