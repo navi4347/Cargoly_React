@@ -1,4 +1,3 @@
-
 import AppleIcon from '../assets/Apple.svg'
 
 
@@ -12,4 +11,3 @@ const AppleAuth = () => {
 }
 
 export default AppleAuth
-

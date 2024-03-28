@@ -48,7 +48,8 @@ function Login() {
       console.error('Error:', err);
       setUsername('');
       setPassword('');
-      setError('An error occurred. Please try again later.');
+      setError('Invalid credentials. Please try again.');
+
 
     }
   };

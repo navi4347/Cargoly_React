@@ -35,7 +35,7 @@
   }
   
   @media (max-width: 959px) {
-    .Auth .aleft {
+    .Auth .aleft, .dleft{
         display: none; 
     }
    
@@ -122,3 +122,34 @@ color: #1976d2;
   color: red;
 }
 
+.Domain {
+  display: flex;
+  justify-content: space-between;
+    width: 100%;
+  height: 100dvh;
+}
+
+.dleft {
+  flex: 1;
+  background-image: url('../assets/cargo.svg'); 
+    background-size: cover;
+    background-position: center;
+
+}
+.dright {
+  flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 100px;}
+.sso h2{
+  font-size: 35px;
+    line-height: 80px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-family: 'Internacional','Helvetica','Arial'!important;
+}
+.sso h6{
+  line-height: 30px;
+}
