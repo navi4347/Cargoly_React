@@ -4,7 +4,7 @@ import {
   TextField,
 } from '@mui/material';
 import GoogleAuth  from '../SSO/GoogleAuth';
-import FacebookAuth from '../SSO/Micrososft';
+import MicrososftAuth from '../SSO/Micrososft';
 import AppleAuth from '../SSO/AppleAuth';
 import DomainAuth from '../SSO/DomainAuth';
 import '../Style.css';
@@ -110,7 +110,7 @@ const SignUp = () => {
   </div>
   
   <div>
-    <AppleAuth />
+    <AppleAuth onSuccess={handleLoginSuccess} onError={handleLoginError} />
   </div>
 
   <div>
@@ -118,7 +118,7 @@ const SignUp = () => {
  </div>
   
   <div>
-  <FacebookAuth />
+  <MicrososftAuth onSuccess={handleLoginSuccess} onError={handleLoginError} />
   </div>
       </div>
     </div>

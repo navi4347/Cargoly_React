@@ -19,7 +19,7 @@ export default function LoginButtonExample() {
   }
 
   return (
-    <FacebookProvider appId="709874471360845">
+    <FacebookProvider appId="113289095462482">
       <LoginButton
         scope="email"
         onError={handleError}
