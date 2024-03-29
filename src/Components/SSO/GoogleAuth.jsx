@@ -8,7 +8,7 @@ const GoogleAuth = ({ onSuccess }) => {
   const handleSuccess = () => {
     if (typeof onSuccess === 'function') {
       onSuccess();
-      navigate('/Menu'); 
+      navigate('/Sales'); 
     } else {
       console.error('onSuccess is not a function');
     }

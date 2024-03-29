@@ -9,7 +9,7 @@ const Microsoft = ({ onSuccess }) => {
   const handleSuccess = (response) => {
     if (typeof onSuccess === 'function') {
       onSuccess(response);
-      navigate('/Menu'); 
+      navigate('/Sales'); 
     } else {
       console.error('onSuccess is not a function');
     }

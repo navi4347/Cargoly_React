@@ -81,7 +81,7 @@ export default function PersistentDrawerLeft() {
   };
 
   const handleAdmin = () => {
-    navigate('/Menu'); 
+    navigate('/Domain'); 
   };
 
 

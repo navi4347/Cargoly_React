@@ -87,7 +87,7 @@ const DomainLogin = () => {
                 {error && <p className="error-message">{error}</p>}
 
                 <p style={{ color: '#747487' }}>By signing in, I agree to the <a href="#">Terms and Conditions</a>.</p>
-                <p>Dont have Company Domain <a href="/">Back to Login Page</a></p>
+                <p style={{ color: '#747487' }}>Dont have Company Domain <a href="/">Back to Login Page</a></p>
             </div>
         </div>
     );
