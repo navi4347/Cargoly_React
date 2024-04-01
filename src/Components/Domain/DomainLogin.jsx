@@ -15,7 +15,7 @@ const DomainLogin = () => {
       
         try {
             // Append '@cargoly.com' to the username before sending the request
-            const response = await fetch('http://127.0.0.1:8080/api/login', {
+            const response = await fetch('http://127.0.0.1:8080/api/domain', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
