@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
 
 const DomainLogin = () => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [token, setToken] = useState('');
     const [error, setError] = useState('');
@@ -15,12 +15,12 @@ const DomainLogin = () => {
       
         try {
             // Append '@cargoly.com' to the username before sending the request
-            const response = await fetch('http://127.0.0.1:8080/api/domain', {
+            const response = await fetch('http://127.0.0.1:8080/api/domainLogin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username: username + '@cargoly.com', password }),
+                body: JSON.stringify({ EmailID: email + '@cargoly.com', password }),
             });
       
             if (!response.ok) {
@@ -40,7 +40,7 @@ const DomainLogin = () => {
             navigate('/Menu');
         } catch (err) {
             console.error('Error:', err);
-            setUsername('');
+            setEmail('');
             setPassword('');
             setError('Invalid credentials. Please try again.');
         }
@@ -55,13 +55,13 @@ const DomainLogin = () => {
                     <TextField
                         label='Domain ID'
                         type='text'
-                        id='username'
-                        name='username'
+                        id='email'
+                        name='email'
                         variant="outlined"
-                        className='kgf'a
-                        value={username}
+                        className='kgf'
+                        value={email}
                         autoComplete='off'
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
                         InputProps={{
                             endAdornment: '@cargoly.com'
