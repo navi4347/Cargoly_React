@@ -1,5 +1,5 @@
-import '../Style.css'
-import { useState } from 'react';
+import '../Style.css';
+import  { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
 
@@ -7,11 +7,13 @@ const DomainLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
-    
+        setLoading(true);
+
         try {
             const response = await fetch('http://127.0.0.1:8080/api/domainLogin', {
                 method: 'POST',
@@ -20,27 +22,27 @@ const DomainLogin = () => {
                 },
                 body: JSON.stringify({ email: email + '@cargoly.com', password }),
             });
-    
+
             if (!response.ok) {
                 throw new Error('Failed to log in');
             }
-    
+
             const data = await response.json();
             const receivedToken = data.token; 
-    
+
             localStorage.setItem('token', receivedToken);
-    
+
+            setEmail('');
+            setPassword('');
             setError('');
+            setLoading(false);
             navigate('/Menu');
         } catch (err) {
             console.error('Error:', err);
             setEmail('');
             setPassword('');
-            if (err instanceof TypeError) {
-                setError('Network error. Please check your internet connection.');
-            } else {
-                setError('Failed to log in. Please check your credentials and try again.');
-            }
+            setError(err instanceof TypeError ? 'Network error. Please check your internet connection.' : 'Invalid email or password');
+            setLoading(false);
         }
     };
 
@@ -77,8 +79,8 @@ const DomainLogin = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                    <Button className='kgf' variant='contained' color='primary' type='submit'>
-                        Login
+                    <Button className='kgf' variant='contained' color='primary' type='submit' disabled={loading}>
+                        {loading ? 'Logging in...' : 'Login'}
                     </Button>
                 </form>                
                 {error && <p className="error-message">{error}</p>}
