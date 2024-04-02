@@ -1,0 +1,43 @@
+.formContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.formField {
+  margin-right: 20px !important;
+}
+
+.save form {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.save form .data {
+  margin-top: 30px;
+  width: 30%;
+}
+
+p {
+  margin-top: auto !important;
+}
+
+.css-1wvnaxz-MuiTableCell-root.MuiTableCell-head,
+.css-1nslmh4-MuiTableCell-root.MuiTableCell-head,
+.css-hip9hq-MuiPaper-root-MuiAppBar-root {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+.rowx{
+  display: flex;
+  justify-content: space-between;
+}
+
+.colxa .tw {
+  margin: 0 20px 20px 0;
+}

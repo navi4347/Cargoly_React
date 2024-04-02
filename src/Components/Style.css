@@ -1,0 +1,155 @@
+.css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
+    background-color: #1976d2 !important;
+    color: #fff !important;
+    border: none !important;
+    }
+.css-18vqli9-MuiPaper-root-MuiAppBar-root,
+.css-ciy9n4-MuiPaper-root-MuiAppBar-root{
+    background-color: #ffffff !important;
+    color: #1976d2 !important;
+}
+
+.nsm7Bb-HzV7m-LgbsSe {
+  background-color: red !important;
+}
+.nsm7Bb-HzV7m-LgbsSe-BPrWId {
+  display: none !important
+}
+.nsm7Bb-HzV7m-LgbsSe{
+  border: none !important;
+}
+
+
+.Auth{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  height: 100dvh;
+  }
+  
+  .Auth .aleft {
+    flex: 1;
+    background-image: url('../assets/cargoly.png'); 
+    background-size: cover;
+    background-position: center;
+  }
+  
+  @media (max-width: 959px) {
+    .Auth .aleft, .dleft{
+        display: none; 
+    }
+   
+}
+
+  .Auth .aright {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+  }
+
+
+.login  form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+}
+.login .kgf,
+.login  .wide-select{
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.aright .taba{
+margin-right: 50px;
+}
+
+.aright .tabb{
+  margin-left: 50px;
+}
+.striped{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.striped-text{
+  color: #1976d2;
+}
+
+.striped-line {
+  display: inline-block;
+  height: 1px;
+  width: 100px; 
+  margin: 5px 15px;
+  background-color: #1976d2;
+}
+
+.social {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.icon-wrapper {
+  text-align: center;
+  cursor: pointer;
+
+}
+
+.iconi {
+ width: 24px;
+ height: 24px;
+}
+
+ .icon-wrapper  span{
+  display: block;
+  margin-top: 20px; 
+  color: #000;
+  font-family: "Google Sans", arial, sans-serif;
+ font-size: 14px;
+}
+.icon-wrapper span:hover{
+color: #1976d2;
+}
+.success-message {
+  text-align: center !important;
+  color: green;
+}
+.error-message {
+  text-align: center !important;
+  color: red;
+}
+
+.Domain {
+  display: flex;
+  justify-content: space-between;
+    width: 100%;
+  height: 100dvh;
+}
+
+.dleft {
+  flex: 1;
+  background-image: url('../assets/cargo.svg'); 
+    background-size: cover;
+    background-position: center;
+
+}
+.dright {
+  flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 70px;}
+.sso h2{
+  font-size: 35px;
+    line-height: 80px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-family: 'Internacional','Helvetica','Arial'!important;
+}
+.sso h6{
+  line-height: 30px;
+}
