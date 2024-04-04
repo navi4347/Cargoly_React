@@ -103,6 +103,10 @@ margin-right: 50px;
  height: 24px;
 }
 
+.icona{
+  width: 10rem;
+}
+
  .icon-wrapper  span{
   display: block;
   margin-top: 20px; 
@@ -153,3 +157,16 @@ color: #1976d2;
 .sso h6{
   line-height: 30px;
 }
+
+.otp{
+  display: flex;
+  gap: 30px;
+  max-width: 20rem;
+  margin-inline: auto;
+  margin-top: 20px;
+}
+
+.verify{
+  margin: 40px !important;
+}
+
