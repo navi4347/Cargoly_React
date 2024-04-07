@@ -149,7 +149,7 @@ const DomainLogin = () => {
                     <Card className='ssoslideb' sx={{ boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.3)' }}>
                         <CardContent>      
                             <img src={OTPI} alt="otp Icon" className="icona" />
-                            <h6>Enter the verification code sent to:  <br/>Email ID: {enteredEmail}@gmail.com</h6>
+                            <h6>Enter the verification code sent to:  <br/>Email ID: {enteredEmail}</h6>
                             <form onSubmit={handleOtpValidation}>
                                 <MuiOtpInput className="otp" value={emailotp} autoFocus={true}  onChange={handleEmailOtpChange} />
                                 <br/>
