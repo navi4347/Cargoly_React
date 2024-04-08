@@ -1,10 +1,11 @@
 import '../Style.css';
 import { useState, useEffect } from 'react'; 
-import { Button, TextField } from '@mui/material'; 
+import { Button, TextField, Typography } from '@mui/material'; 
 import { MuiOtpInput } from 'mui-one-time-password-input';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import OTPI from '../assets/otp.svg';
+import { useNavigate } from 'react-router-dom';
 
 const DomainLogin = () => {
     const [email, setEmail] = useState('');
@@ -12,10 +13,12 @@ const DomainLogin = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
-    const [emailotp, setEmailOtp] = useState('');
-    const [phoneotp, setPhoneOtp] = useState('');
+    const [emailOtp, setEmailOtp] = useState('');
+    const [phoneOtp, setPhoneOtp] = useState('');
     const [enteredEmail, setEnteredEmail] = useState('');
     const [contact, setContact] = useState('');
+    const [otpResent, setOtpResent] = useState(false); // New state to track OTP resent
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -25,24 +28,29 @@ const DomainLogin = () => {
                     throw new Error('Failed to fetch user data');
                 }
                 const userData = await response.json();
-                console.log('Fetched user data:', userData);
-                console.log('Entered email:', enteredEmail); // Log the entered email here
                 const user = userData.find(user => user.email === enteredEmail);
-                console.log('Found user:', user);
                 if (user) {
                     setContact(user.contact);
-                    console.log('Contact:', user.contact);
                 }
             } catch (err) {
                 console.error('Error fetching user data:', err);
             }
         };
-    
+
         if (loggedIn && enteredEmail) {
             fetchUserData();
         }
     }, [loggedIn, enteredEmail]);
-    
+
+    // Function to handle clearing error after 30 seconds
+    useEffect(() => {
+        if (error) {
+            const timeout = setTimeout(() => {
+                setError('');
+            }, 30000); // 30 seconds
+            return () => clearTimeout(timeout);
+        }
+    }, [error]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -83,7 +91,31 @@ const DomainLogin = () => {
 
     const handleOtpValidation = async (e) => {
         e.preventDefault();
-        // Add your OTP validation logic here
+        try {
+            const response = await fetch('http://localhost:8080/api/validateOtp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ emailOtp, phoneOtp }), 
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to validate OTPs');
+            }
+    
+            const data = await response.json();
+            const isValid = data.isValid;
+    
+            if (isValid) {
+                navigate('/Menu');
+            } else {
+                setError('You have entered a wrong code...Please try again!');
+            }
+        } catch (err) {
+            console.error('Error validating OTPs:', err);
+            setError('Failed to validate OTPs. Please try again.');
+        }
     };
 
     const handleEmailOtpChange = (newValue) => {
@@ -92,6 +124,33 @@ const DomainLogin = () => {
 
     const handlePhoneOtpChange = (newValue) => {
         setPhoneOtp(newValue);
+    };
+
+    // Function to handle resend OTP
+    const handleResendOtp = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/api/resendOtp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: enteredEmail, contact }), 
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to resend OTP');
+            }
+    
+            setOtpResent(true);
+            setError('');
+            // Clear resent status after 30 seconds
+            setTimeout(() => {
+                setOtpResent(false);
+            }, 30000); // 30 seconds
+        } catch (err) {
+            console.error('Error resending OTP:', err);
+            setError('Failed to resend OTP. Please try again.');
+        }
     };
 
     return (
@@ -151,17 +210,22 @@ const DomainLogin = () => {
                             <img src={OTPI} alt="otp Icon" className="icona" />
                             <h6>Enter the verification code sent to:  <br/>Email ID: {enteredEmail}</h6>
                             <form onSubmit={handleOtpValidation}>
-                                <MuiOtpInput className="otp" value={emailotp} autoFocus={true}  onChange={handleEmailOtpChange} />
+                                <MuiOtpInput className="otp" value={emailOtp} autoFocus={true}  onChange={handleEmailOtpChange} />
                                 <br/>
                                 <h6>Enter the verification code sent to:  <br/> Phone Number: +91 {contact}</h6>
-                                <MuiOtpInput className="otp" value={phoneotp}  onChange={handlePhoneOtpChange} />
-                                <Button className='verify' variant='contained' color='primary' type='submit' disabled={loading}>
-                                    {loading ? 'Logging in...' : 'Validate OTP'}
+                                <MuiOtpInput className="otp" value={phoneOtp}  onChange={handlePhoneOtpChange} />
+                                <Button className='verify' variant='contained' color='primary' type='submit' disabled={loading || !emailOtp || !phoneOtp}>
+                                {loading ? 'Validating...' : 'Validate OTP'}
                                 </Button>
                             </form>
                             {error && <p className="error-message">{error}</p>}
-                            <p style={{ color: '#747487' }}>Didnt receive a code? <a href="/">Resend</a></p>
-                            <p style={{ color: '#747487' }}>By signing in, I agree to the <a href="#">Terms and Conditions</a>.</p>
+                            {otpResent && <p className="success-message">OTP has been resent.</p>}
+                            <Typography component="p" sx={{ color: '#747487' }}>Didnt receive a code?{' '}
+                            <Button variant="text" color="primary" onClick={handleResendOtp}>Resend </Button> </Typography>  
+                            
+                            <Typography component="p" sx={{ color: '#747487' }}>By signing in, I agree to the{' '}
+                            <Button variant="text" color="primary" >Terms and Conditions</Button> </Typography> 
+
                         </CardContent>
                     </Card>
                 </div>     
