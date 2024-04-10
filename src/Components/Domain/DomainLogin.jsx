@@ -1,4 +1,3 @@
-import '../Style.css';
 import { useState, useEffect } from 'react'; 
 import { Button, TextField, Typography } from '@mui/material'; 
 import { MuiOtpInput } from 'mui-one-time-password-input';
@@ -17,8 +16,10 @@ const DomainLogin = () => {
     const [phoneOtp, setPhoneOtp] = useState('');
     const [enteredEmail, setEnteredEmail] = useState('');
     const [contact, setContact] = useState('');
-    const [otpResent, setOtpResent] = useState(false); // New state to track OTP resent
+    const [otpResent, setOtpResent] = useState(false); 
     const navigate = useNavigate();
+    const [countdown, setCountdown] = useState(60);
+    const [success, setSuccess] = useState('');
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -42,15 +43,23 @@ const DomainLogin = () => {
         }
     }, [loggedIn, enteredEmail]);
 
-    // Function to handle clearing error after 30 seconds
     useEffect(() => {
-        if (error) {
-            const timeout = setTimeout(() => {
-                setError('');
-            }, 30000); // 30 seconds
-            return () => clearTimeout(timeout);
+        let timer;
+        if (otpResent && countdown > 0) {
+            timer = setInterval(() => {
+                setCountdown(prevCountdown => prevCountdown - 1);
+            }, 1000);
         }
-    }, [error]);
+        return () => clearInterval(timer);
+    }, [otpResent, countdown]);
+
+    useEffect(() => {
+        console.log("Error state:", error);
+      }, [error]);
+      
+      useEffect(() => {
+        console.log("Success state:", success);
+      }, [success]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -80,6 +89,7 @@ const DomainLogin = () => {
             setLoading(false);
             setLoggedIn(true);
             setEnteredEmail(email + '@gmail.com');
+            setOtpResent(true); 
         } catch (err) {
             console.error('Error logging in:', err);
             setEmail('');
@@ -111,6 +121,9 @@ const DomainLogin = () => {
                 navigate('/Menu');
             } else {
                 setError('You have entered a wrong code...Please try again!');
+                setTimeout(() => {
+                    setError('');
+                }, 30000); 
             }
         } catch (err) {
             console.error('Error validating OTPs:', err);
@@ -126,7 +139,6 @@ const DomainLogin = () => {
         setPhoneOtp(newValue);
     };
 
-    // Function to handle resend OTP
     const handleResendOtp = async () => {
         try {
             const response = await fetch('http://localhost:8080/api/resendOtp', {
@@ -140,16 +152,20 @@ const DomainLogin = () => {
             if (!response.ok) {
                 throw new Error('Failed to resend OTP');
             }
-    
+        
+            setSuccess('Verification code was sent successfully');
             setOtpResent(true);
-            setError('');
-            // Clear resent status after 30 seconds
+            setCountdown(60); 
+        
             setTimeout(() => {
-                setOtpResent(false);
-            }, 30000); // 30 seconds
+                setSuccess('');
+            }, 10000); 
         } catch (err) {
             console.error('Error resending OTP:', err);
             setError('Failed to resend OTP. Please try again.');
+            setTimeout(() => {
+                setError('');
+            }, 10000);
         }
     };
 
@@ -206,26 +222,26 @@ const DomainLogin = () => {
             {loggedIn && (
                 <div>
                     <Card className='ssoslideb' sx={{ boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.3)' }}>
-                        <CardContent>      
+                        <CardContent>  
+                        <h6>Enter the verification code sent to:</h6>
+    
                             <img src={OTPI} alt="otp Icon" className="icona" />
-                            <h6>Enter the verification code sent to:  <br/>Email ID: {enteredEmail}</h6>
+                            <h6>Email ID: {enteredEmail}</h6>
                             <form onSubmit={handleOtpValidation}>
                                 <MuiOtpInput className="otp" value={emailOtp} autoFocus={true}  onChange={handleEmailOtpChange} />
                                 <br/>
-                                <h6>Enter the verification code sent to:  <br/> Phone Number: +91 {contact}</h6>
+                                <h6>Phone Number: +91 {contact}</h6>
                                 <MuiOtpInput className="otp" value={phoneOtp}  onChange={handlePhoneOtpChange} />
+                               
                                 <Button className='verify' variant='contained' color='primary' type='submit' disabled={loading || !emailOtp || !phoneOtp}>
                                 {loading ? 'Validating...' : 'Validate OTP'}
                                 </Button>
                             </form>
                             {error && <p className="error-message">{error}</p>}
-                            {otpResent && <p className="success-message">OTP has been resent.</p>}
-                            <Typography component="p" sx={{ color: '#747487' }}>Didnt receive a code?{' '}
-                            <Button variant="text" color="primary" onClick={handleResendOtp}>Resend </Button> </Typography>  
+                            {success && <p className="success-message">{success}</p>}
+                            <Typography component="p" sx={{ color: '#747487' }}>Didnt receive a code? {countdown > 0 ? (<Typography variant="body2" color="primary">wait for {countdown} seconds</Typography>) : (<Button variant="text" color="primary" onClick={handleResendOtp}>Resend</Button>)}</Typography>
                             
-                            <Typography component="p" sx={{ color: '#747487' }}>By signing in, I agree to the{' '}
-                            <Button variant="text" color="primary" >Terms and Conditions</Button> </Typography> 
-
+                          
                         </CardContent>
                     </Card>
                 </div>     
