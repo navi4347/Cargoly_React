@@ -130,7 +130,6 @@ const DomainLogin = () => {
         }
     };
 
-    
     const handleEmailOtpChange = (newValue) => {
         setEmailOtp(newValue);
     };
