@@ -13,7 +13,6 @@ const DomainLogin = () => {
     const [loading, setLoading] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
     const [emailOtp, setEmailOtp] = useState('');
-    const [phoneOtp, setPhoneOtp] = useState('');
     const [enteredEmail, setEnteredEmail] = useState('');
     const [contact, setContact] = useState('');
     const [otpResent, setOtpResent] = useState(false); 
@@ -107,7 +106,7 @@ const DomainLogin = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ emailOtp, phoneOtp }), 
+                body: JSON.stringify({ emailOtp }), 
             });
     
             if (!response.ok) {
@@ -135,9 +134,7 @@ const DomainLogin = () => {
         setEmailOtp(newValue);
     };
 
-    const handlePhoneOtpChange = (newValue) => {
-        setPhoneOtp(newValue);
-    };
+   
 
     const handleResendOtp = async () => {
         try {
@@ -228,12 +225,8 @@ const DomainLogin = () => {
                             <img src={OTPI} alt="otp Icon" className="icona" />
                             <h6>Email ID: {enteredEmail}</h6>
                             <form onSubmit={handleOtpValidation}>
-                                <MuiOtpInput className="otp" value={emailOtp} autoFocus={true}  onChange={handleEmailOtpChange} />
-                                <br/>
-                                <h6>Phone Number: +91 {contact}</h6>
-                                <MuiOtpInput className="otp" value={phoneOtp}  onChange={handlePhoneOtpChange} />
-                               
-                                <Button className='verify' variant='contained' color='primary' type='submit' disabled={loading || !emailOtp || !phoneOtp}>
+                                <MuiOtpInput className="otp" value={emailOtp} autoFocus={true}  onChange={handleEmailOtpChange} />                               
+                                <Button className='verify' variant='contained' color='primary' type='submit' disabled={loading || !emailOtp}>
                                 {loading ? 'Validating...' : 'Validate OTP'}
                                 </Button>
                             </form>
