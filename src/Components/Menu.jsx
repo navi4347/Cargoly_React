@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -92,6 +93,7 @@ export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [selectedContent, setSelectedContent] = React.useState('Portpair');
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate(); 
 
   const handleDrawerOpen = () => {
@@ -106,9 +108,23 @@ export default function PersistentDrawerLeft() {
     setSelectedContent(content);
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/');
+    } else {
+      setLoading(false);
+    }
+  }, [navigate]);
+
 const handleLogout = () => {
+  localStorage.removeItem('token');
     navigate('/'); 
   };
+
+  if (loading) {
+    return <div>Loading...</div>; 
+  } 
 
   const handleSales = () => {
     navigate('/Sales'); 
@@ -149,6 +165,9 @@ const handleLogout = () => {
         return null;
     }
   };
+
+
+  
 
   return (
     <Box sx={{ display: 'flex' }}>

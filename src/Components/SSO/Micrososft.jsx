@@ -7,6 +7,8 @@ const Microsoft = ({ onSuccess }) => {
   const navigate = useNavigate(); 
 
   const handleSuccess = (response) => {
+    const token = response.token; 
+    localStorage.setItem('token', token); 
     if (typeof onSuccess === 'function') {
       onSuccess(response);
       navigate('/Sales'); 
