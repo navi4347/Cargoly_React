@@ -3,7 +3,6 @@ import Menu from './Components/Menu'
 import NotFound from "./Components/NotFound";
 import Sales from './Pages/User/Sales'
 import Domain from './Components/Auth/Domain';
-
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 

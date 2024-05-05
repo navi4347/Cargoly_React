@@ -4,10 +4,14 @@
     border: none !important;
     }
 .css-18vqli9-MuiPaper-root-MuiAppBar-root,
-.css-ciy9n4-MuiPaper-root-MuiAppBar-root{
+.css-ciy9n4-MuiPaper-root-MuiAppBar-root
+{
+  
     background-color: #ffffff !important;
     color: #1976d2 !important;
 }
+
+
 
 .nsm7Bb-HzV7m-LgbsSe {
   background-color: red !important;
@@ -170,5 +174,9 @@ color: #1976d2;
 
 .verify{
   margin: 40px !important;
+}
+
+.sales h1{
+  text-align: center;
 }
 

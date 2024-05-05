@@ -26,12 +26,7 @@ p {
   margin-top: auto !important;
 }
 
-.css-1wvnaxz-MuiTableCell-root.MuiTableCell-head,
-.css-1nslmh4-MuiTableCell-root.MuiTableCell-head,
-.css-hip9hq-MuiPaper-root-MuiAppBar-root {
-  background-color: #fff !important;
-  color: #000 !important;
-}
+
 
 .rowx{
   display: flex;
