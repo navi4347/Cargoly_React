@@ -5,9 +5,7 @@ import GoogleIcon from '../assets/Google.svg'
 
 const GoogleAuth = ({ onSuccess }) => {
   const navigate = useNavigate(); 
-  const handleSuccess = (response) => {
-    const token = response.token; 
-    localStorage.setItem('token', token); 
+  const handleSuccess = () => {
     if (typeof onSuccess === 'function') {
       onSuccess();
       navigate('/Sales'); 

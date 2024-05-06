@@ -109,18 +109,19 @@ export default function PersistentDrawerLeft() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (!token) {
       navigate('/');
     } else {
       setLoading(false);
     }
   }, [navigate]);
-
-const handleLogout = () => {
-  localStorage.removeItem('token');
+  
+  const handleLogout = () => {
+    sessionStorage.removeItem('token');
     navigate('/'); 
   };
+  
 
   if (loading) {
     return <div>Loading...</div>; 

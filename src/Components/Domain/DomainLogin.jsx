@@ -20,6 +20,33 @@ const DomainLogin = () => {
     const [countdown, setCountdown] = useState(60);
     const [success, setSuccess] = useState('');
 
+    // Function to set session storage
+    const setSessionStorageItem = (key, value) => {
+        sessionStorage.setItem(key, JSON.stringify(value));
+    };
+
+    // Function to get session storage
+    const getSessionStorageItem = (key) => {
+        const item = sessionStorage.getItem(key);
+        return item ? JSON.parse(item) : null;
+    };
+
+    useEffect(() => {
+        // Retrieve data from session storage on component mount
+        const isLoggedIn = getSessionStorageItem('loggedIn');
+        const enteredEmail = getSessionStorageItem('enteredEmail');
+        if (isLoggedIn && enteredEmail) {
+            setLoggedIn(isLoggedIn);
+            setEnteredEmail(enteredEmail);
+        }
+    }, []);
+
+    useEffect(() => {
+        // Set data to session storage when loggedIn or enteredEmail changes
+        setSessionStorageItem('loggedIn', loggedIn);
+        setSessionStorageItem('enteredEmail', enteredEmail);
+    }, [loggedIn, enteredEmail]);
+
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -54,11 +81,11 @@ const DomainLogin = () => {
 
     useEffect(() => {
         console.log("Error state:", error);
-      }, [error]);
-      
-      useEffect(() => {
+    }, [error]);
+    
+    useEffect(() => {
         console.log("Success state:", success);
-      }, [success]);
+    }, [success]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -80,7 +107,7 @@ const DomainLogin = () => {
             const data = await response.json();
             const receivedToken = data.token;
 
-            localStorage.setItem('token', receivedToken);
+            sessionStorage.setItem('token', receivedToken);
 
             setEmail('');
             setPassword('');
@@ -134,8 +161,6 @@ const DomainLogin = () => {
         setEmailOtp(newValue);
     };
 
-   
-
     const handleResendOtp = async () => {
         try {
             const response = await fetch('http://localhost:8080/api/resendOtp', {
@@ -165,6 +190,7 @@ const DomainLogin = () => {
             }, 10000);
         }
     };
+
 
     return (
         <div className='sso'>

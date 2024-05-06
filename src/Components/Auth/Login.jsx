@@ -18,7 +18,7 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await fetch('http://127.0.0.1:8080/api/login', {
         method: 'POST',
@@ -27,15 +27,13 @@ function Login() {
         },
         body: JSON.stringify({ username, password }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
         const token = data.token;
-
-        // Store the token securely (e.g., in local storage)
-        localStorage.setItem('token', token);
-
-        // Redirect the user to a different page or update the UI
+  
+        sessionStorage.setItem('token', token);
+  
         navigate('/Sales');
       } else {
         setError('Invalid username or password');
@@ -47,6 +45,7 @@ function Login() {
       setError('Invalid credentials. Please try again.');
     }
   };
+  
 
   const handleLoginSuccess = () => {
     console.log('Login success');
