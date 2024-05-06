@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Header from '../../Components/Header/Header'
 import Button from '@mui/material/Button';
 
 const Sales = () => {
@@ -32,6 +33,7 @@ const Sales = () => {
 
   return (
     <div className='sales'>
+      <Header />
       <Button variant="contained" color="primary" onClick={handleLogout}>
         Logout
       </Button>
