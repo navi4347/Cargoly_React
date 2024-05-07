@@ -5,14 +5,17 @@ import GoogleIcon from '../assets/Google.svg'
 
 const GoogleAuth = ({ onSuccess }) => {
   const navigate = useNavigate(); 
-  const handleSuccess = () => {
-    if (typeof onSuccess === 'function') {
-      onSuccess();
-      navigate('/Sales'); 
-    } else {
-      console.error('onSuccess is not a function');
-    }
-  };
+
+ const handleSuccess = (role) => {
+  if (typeof onSuccess === 'function') {
+    onSuccess();
+    sessionStorage.setItem('token', 'your_session_token_here');
+    sessionStorage.setItem('role', role);
+    navigate('/Sales'); 
+  } else {
+    console.error('onSuccess is not a function');
+  }
+};
 
   const login = useGoogleLogin({
     onSuccess: handleSuccess, 

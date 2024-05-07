@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Button,
-  TextField,
-} from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import GoogleAuth from '../SSO/GoogleAuth';
 import AppleAuth from '../SSO/AppleAuth';
 import MicrososftAuth from '../SSO/Micrososft';
@@ -16,11 +13,12 @@ function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+ 
   const handleLogin = async (e) => {
     e.preventDefault();
   
     try {
-      const response = await fetch('http://127.0.0.1:8080/api/login', {
+      const loginResponse = await fetch('http://localhost:8080/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -28,21 +26,17 @@ function Login() {
         body: JSON.stringify({ username, password }),
       });
   
-      if (response.ok) {
-        const data = await response.json();
-        const token = data.token;
-  
+      if (loginResponse.ok) {
+        const loginData = await loginResponse.json();
+        const token = loginData.token;
         sessionStorage.setItem('token', token);
-  
         navigate('/Sales');
       } else {
         setError('Invalid username or password');
       }
     } catch (err) {
-      console.error('Error:', err);
-      setUsername('');
-      setPassword('');
-      setError('Invalid credentials. Please try again.');
+      console.error('Login error:', err);
+      setError('Failed to log in. Please try again later.');
     }
   };
   
@@ -54,6 +48,7 @@ function Login() {
   const handleLoginError = (error) => {
     console.error('Login error:', error);
   };
+
 
   return (
     <div className='login'>
