@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react'; 
-import { Button, TextField, Typography } from '@mui/material'; 
+import { useState, useEffect } from 'react';
+import { Button, TextField, Typography, Card, CardContent, Box } from '@mui/material';
 import { MuiOtpInput } from 'mui-one-time-password-input';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import OTPI from '../assets/otp.svg';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,59 +12,32 @@ const DomainLogin = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [emailOtp, setEmailOtp] = useState('');
     const [enteredEmail, setEnteredEmail] = useState('');
-    const [contact, setContact] = useState('');
     const [otpResent, setOtpResent] = useState(false); 
     const navigate = useNavigate();
     const [countdown, setCountdown] = useState(60);
     const [success, setSuccess] = useState('');
 
-    // Function to set session storage
     const setSessionStorageItem = (key, value) => {
         sessionStorage.setItem(key, JSON.stringify(value));
     };
 
-    // Function to get session storage
     const getSessionStorageItem = (key) => {
         const item = sessionStorage.getItem(key);
         return item ? JSON.parse(item) : null;
     };
 
     useEffect(() => {
-        // Retrieve data from session storage on component mount
         const isLoggedIn = getSessionStorageItem('loggedIn');
-        const enteredEmail = getSessionStorageItem('enteredEmail');
-        if (isLoggedIn && enteredEmail) {
+        const storedEmail = getSessionStorageItem('enteredEmail');
+        if (isLoggedIn && storedEmail) {
             setLoggedIn(isLoggedIn);
-            setEnteredEmail(enteredEmail);
+            setEnteredEmail(storedEmail);
         }
     }, []);
 
     useEffect(() => {
-        // Set data to session storage when loggedIn or enteredEmail changes
         setSessionStorageItem('loggedIn', loggedIn);
         setSessionStorageItem('enteredEmail', enteredEmail);
-    }, [loggedIn, enteredEmail]);
-
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await fetch('http://localhost:8080/api/domainUsers');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch user data');
-                }
-                const userData = await response.json();
-                const user = userData.find(user => user.email === enteredEmail);
-                if (user) {
-                    setContact(user.contact);
-                }
-            } catch (err) {
-                console.error('Error fetching user data:', err);
-            }
-        };
-
-        if (loggedIn && enteredEmail) {
-            fetchUserData();
-        }
     }, [loggedIn, enteredEmail]);
 
     useEffect(() => {
@@ -79,14 +50,6 @@ const DomainLogin = () => {
         return () => clearInterval(timer);
     }, [otpResent, countdown]);
 
-    useEffect(() => {
-        console.log("Error state:", error);
-    }, [error]);
-    
-    useEffect(() => {
-        console.log("Success state:", success);
-    }, [success]);
-
     const handleLogin = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -97,7 +60,7 @@ const DomainLogin = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email: email + '@gmail.com', password }),
+                body: JSON.stringify({ email: `${email}@gmail.com`, password }),
             });
 
             if (!response.ok) {
@@ -105,28 +68,26 @@ const DomainLogin = () => {
             }
 
             const data = await response.json();
-            const receivedToken = data.token;
-
-            sessionStorage.setItem('token', receivedToken);
+            sessionStorage.setItem('token', data.token);
 
             setEmail('');
             setPassword('');
             setError('');
             setLoading(false);
             setLoggedIn(true);
-            setEnteredEmail(email + '@gmail.com');
-            setOtpResent(true); 
+            setEnteredEmail(`${email}@gmail.com`);
+            setOtpResent(true);
         } catch (err) {
             console.error('Error logging in:', err);
-            setEmail('');
-            setPassword('');
-            setError(err instanceof TypeError ? 'Network error. Please check your internet connection.' : 'Invalid email or password');
+            setError('Network error or invalid credentials. Please try again.');
             setLoading(false);
         }
     };
 
     const handleOtpValidation = async (e) => {
         e.preventDefault();
+        setLoading(true);
+
         try {
             const response = await fetch('http://localhost:8080/api/validateOtp', {
                 method: 'POST',
@@ -135,25 +96,23 @@ const DomainLogin = () => {
                 },
                 body: JSON.stringify({ emailOtp }), 
             });
-    
+
             if (!response.ok) {
-                throw new Error('Failed to validate OTPs');
+                throw new Error('Failed to validate OTP');
             }
-    
+
             const data = await response.json();
-            const isValid = data.isValid;
-    
-            if (isValid) {
+            if (data.isValid) {
                 navigate('/Menu');
             } else {
-                setError('You have entered a wrong code...Please try again!');
-                setTimeout(() => {
-                    setError('');
-                }, 30000); 
+                setError('Invalid OTP. Please try again.');
+                setTimeout(() => setError(''), 30000);
             }
+            setLoading(false);
         } catch (err) {
-            console.error('Error validating OTPs:', err);
-            setError('Failed to validate OTPs. Please try again.');
+            console.error('Error validating OTP:', err);
+            setError('Failed to validate OTP. Please try again.');
+            setLoading(false);
         }
     };
 
@@ -168,101 +127,103 @@ const DomainLogin = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email: enteredEmail, contact }), 
+                body: JSON.stringify({ email: enteredEmail }), 
             });
-    
+
             if (!response.ok) {
                 throw new Error('Failed to resend OTP');
             }
-        
-            setSuccess('Verification code was sent successfully');
+
+            setSuccess('Verification code sent successfully');
             setOtpResent(true);
-            setCountdown(60); 
-        
-            setTimeout(() => {
-                setSuccess('');
-            }, 10000); 
+            setCountdown(60);
+            setTimeout(() => setSuccess(''), 10000);
         } catch (err) {
             console.error('Error resending OTP:', err);
             setError('Failed to resend OTP. Please try again.');
-            setTimeout(() => {
-                setError('');
-            }, 10000);
+            setTimeout(() => setError(''), 10000);
         }
     };
 
-
     return (
         <div className='sso'>
-            {!loggedIn && (
-                <div>
-                    <Card className='ssoslidea' sx={{ boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.3)' }}>
-                        <CardContent> 
-                            <h2>Sign In With SSO</h2>
-                            <h6>Enter your company domain.</h6>
-                            <div className='login'>
-                                <form onSubmit={handleLogin}>
-                                    <TextField
-                                        label='Domain ID'
-                                        type='text'
-                                        id='email'
-                                        name='email'
-                                        variant="outlined"
-                                        className='kgf'
-                                        value={email}
-                                        autoComplete='off'
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
-                                        InputProps={{
-                                            endAdornment: '@gmail.com'
-                                        }}
-                                    />
-                                    <TextField
-                                        label='Password'
-                                        variant="outlined"
-                                        type='password'
-                                        name='password'
-                                        id='password'
-                                        className='kgf'
-                                        value={password}
-                                        autoComplete='off'
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                    />
-                                    <Button className='kgf' variant='contained' color='primary' type='submit' disabled={loading}>
-                                        {loading ? 'Logging in...' : 'Login'}
-                                    </Button>
-                                </form>
-                                {error && <p className="error-message">{error}</p>}
-
-                                <p style={{ color: '#747487' }}>By signing in, I agree to the <a href="#">Terms and Conditions</a>.</p>
-                                <p style={{ color: '#747487' }}>Dont have a Company Domain <a href="/">Back to Login Page</a></p>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </div>     
-            )}
-            {loggedIn && (
-                <div>
-                    <Card className='ssoslideb' sx={{ boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.3)' }}>
-                        <CardContent>  
-                        <h6>Enter the verification code sent to:</h6>
-    
-                            <img src={OTPI} alt="otp Icon" className="icona" />
-                            <h6>Email ID: {enteredEmail}</h6>
-                            <form onSubmit={handleOtpValidation}>
-                                <MuiOtpInput className="otp" value={emailOtp} autoFocus={true}  onChange={handleEmailOtpChange} />                               
-                                <Button className='verify' variant='contained' color='primary' type='submit' disabled={loading || !emailOtp}>
-                                {loading ? 'Validating...' : 'Validate OTP'}
-                                </Button>
+        {!loggedIn && (
+            <div>
+                <Card className='ssoslidea' sx={{ boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.3)' }}>
+                    <CardContent>
+                        <Typography variant="h4">Sign In With SSO</Typography>
+                        <Typography variant="subtitle1">Enter your company domain.</Typography>
+                        <div className='login'>
+                        <form onSubmit={handleLogin} className='login'>
+                            <TextField
+                                label='Domain ID'
+                                type='text'
+                                id='email'
+                                name='email'
+                                variant="outlined"
+                                className='kgf'
+                                value={email}
+                                autoComplete='off'
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                InputProps={{
+                                    endAdornment: '@gmail.com'
+                                }}
+                            />
+                            <TextField
+                                label='Password'
+                                variant="outlined"
+                                type='password'
+                                name='password'
+                                id='password'
+                                className='kgf'
+                                value={password}
+                                autoComplete='off'
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                            <Button className='kgf' variant='contained' color='primary' type='submit' disabled={loading}>
+                                {loading ? 'Logging in...' : 'Login'}
+                            </Button>
                             </form>
-                            {error && <p className="error-message">{error}</p>}
-                            {success && <p className="success-message">{success}</p>}
-                            <Typography component="p" sx={{ color: '#747487' }}>Didnt receive a code? {countdown > 0 ? (<Typography variant="body2" color="primary">wait for {countdown} seconds</Typography>) : (<Button variant="text" color="primary" onClick={handleResendOtp}>Resend</Button>)}</Typography>
-                            
-                          
-                        </CardContent>
-                    </Card>
+
+                            {error && <Typography color="error">{error}</Typography>}
+                            <Typography sx={{ color: '#747487' }}>By signing in, I agree to the <a href="#">Terms and Conditions</a>.</Typography>
+                            <Typography sx={{ color: '#747487' }}>Dont have a Company Domain? <a href="/">Back to Login Page</a></Typography>
+                  </div>
+                    </CardContent>
+                </Card>
+                            </div>     
+                        )}
+                        {loggedIn && (
+                            <div>
+            
+
+                <Card className='ssoslideb' sx={{ boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.3)' }}>
+                    <CardContent>
+                        <Typography variant="subtitle1">Enter the verification code sent to:</Typography>
+                        <img src={OTPI} alt="OTP Icon" className="icona" />
+                        <Typography variant="subtitle1">Email ID: {enteredEmail}</Typography>
+                        <form onSubmit={handleOtpValidation}>
+                            <MuiOtpInput className="otp" value={emailOtp} autoFocus={true} onChange={handleEmailOtpChange} />
+                            <Button className='verify' variant='contained' color='primary' type='submit' disabled={loading || !emailOtp}>
+                                {loading ? 'Validating...' : 'Validate OTP'}
+                            </Button>
+                            {error && <Typography color="error">{error}</Typography>}
+                            {success && <Typography sx={{ color: 'green' }}>{success}</Typography>}
+                            <Box sx={{ color: '#747487' }}>
+                                <Typography sx={{ display: 'inline' }}>Didnt receive a code? </Typography>
+                                {countdown > 0 ? (
+                                    <Typography variant="body2" color="primary" sx={{ display: 'inline' }}>wait for {countdown} seconds</Typography>
+                                ) : (
+                                    <Button variant="text" color="primary" onClick={handleResendOtp} disabled={countdown > 0}>
+                                        Resend
+                                    </Button>
+                                )}
+                            </Box>
+                        </form>
+                    </CardContent>
+                </Card>
                 </div>     
             )}
         </div>

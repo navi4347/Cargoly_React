@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField } from '@mui/material';
+import {
+  Button,
+  TextField,
+} from '@mui/material';
 import GoogleAuth from '../SSO/GoogleAuth';
 import AppleAuth from '../SSO/AppleAuth';
 import MicrososftAuth from '../SSO/Micrososft';
@@ -39,7 +42,6 @@ function Login() {
       setError('Failed to log in. Please try again later.');
     }
   };
-  
 
   const handleLoginSuccess = () => {
     console.log('Login success');
@@ -48,7 +50,6 @@ function Login() {
   const handleLoginError = (error) => {
     console.error('Login error:', error);
   };
-
 
   return (
     <div className='login'>

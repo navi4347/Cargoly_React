@@ -119,6 +119,8 @@ export default function PersistentDrawerLeft() {
   
   const handleLogout = () => {
     sessionStorage.removeItem('token');
+     sessionStorage.removeItem('enteredEmail');
+  sessionStorage.removeItem('loggedIn');
     navigate('/'); 
   };
   
