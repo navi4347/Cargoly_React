@@ -23,7 +23,7 @@ const Sales = () => {
   }, [navigate]);
 
   const handleLogout = () => {
-    sessionStorage.removeItem('token');
+    sessionStorage.clear();
     navigate('/');
   };
 

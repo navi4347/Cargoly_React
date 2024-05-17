@@ -26,7 +26,6 @@ import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 import KeyboardCommandKeyIcon from '@mui/icons-material/KeyboardCommandKey';
-import Portpair from '../Pages/Admin/Portpair';
 import CarrierMaster from '../Pages/Admin/CarrierMaster';
 import CarrierBuy from '../Pages/Admin/CarrierBuy';
 import Booking from '../Pages/Admin/Booking';
@@ -118,9 +117,7 @@ export default function PersistentDrawerLeft() {
   }, [navigate]);
   
   const handleLogout = () => {
-    sessionStorage.removeItem('token');
-     sessionStorage.removeItem('enteredEmail');
-  sessionStorage.removeItem('loggedIn');
+    sessionStorage.clear();
     navigate('/'); 
   };
   
@@ -149,7 +146,7 @@ export default function PersistentDrawerLeft() {
   const getContentComponent = () => {
     switch (selectedContent) {
       case 'Portpair':
-        return <Portpair />;
+        return <CarrierMaster />;
       case 'Carrier Master':
         return <CarrierMaster />;
       case 'Carrier Buy':

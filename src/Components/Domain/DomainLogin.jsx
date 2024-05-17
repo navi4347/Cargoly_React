@@ -68,8 +68,8 @@ const DomainLogin = () => {
             }
 
             const data = await response.json();
-            sessionStorage.setItem('token', data.token);
-
+            sessionStorage.setItem('token', JSON.stringify(data.token));
+            sessionStorage.setItem('role', JSON.stringify(data.role)); 
             setEmail('');
             setPassword('');
             setError('');
@@ -87,7 +87,7 @@ const DomainLogin = () => {
     const handleOtpValidation = async (e) => {
         e.preventDefault();
         setLoading(true);
-
+    
         try {
             const response = await fetch('http://localhost:8080/api/validateOtp', {
                 method: 'POST',
@@ -96,14 +96,21 @@ const DomainLogin = () => {
                 },
                 body: JSON.stringify({ emailOtp }), 
             });
-
+    
             if (!response.ok) {
                 throw new Error('Failed to validate OTP');
             }
-
+    
             const data = await response.json();
             if (data.isValid) {
-                navigate('/Menu');
+                const role = JSON.parse(sessionStorage.getItem('role')); 
+                if (role === 'ROLE_Employee') {
+                    navigate('/menu'); 
+                } else if (role === 'ROLE_Users') {
+                    navigate('/sales'); 
+                } else {
+                    setError('You do not have access to this page.');
+                }
             } else {
                 setError('Invalid OTP. Please try again.');
                 setTimeout(() => setError(''), 30000);
@@ -197,8 +204,6 @@ const DomainLogin = () => {
                         )}
                         {loggedIn && (
                             <div>
-            
-
                 <Card className='ssoslideb' sx={{ boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.3)' }}>
                     <CardContent>
                         <Typography variant="subtitle1">Enter the verification code sent to:</Typography>
