@@ -26,6 +26,7 @@ import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 import KeyboardCommandKeyIcon from '@mui/icons-material/KeyboardCommandKey';
+import Portpair from '../Pages/Admin/Portpair';
 import CarrierMaster from '../Pages/Admin/CarrierMaster';
 import CarrierBuy from '../Pages/Admin/CarrierBuy';
 import Booking from '../Pages/Admin/Booking';
@@ -83,7 +84,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
 }));
@@ -91,7 +91,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [selectedContent, setSelectedContent] = React.useState('Portpair');
+  const [selectedContent, setSelectedContent] = React.useState('Booking');
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate(); 
 
@@ -146,7 +146,7 @@ export default function PersistentDrawerLeft() {
   const getContentComponent = () => {
     switch (selectedContent) {
       case 'Portpair':
-        return <CarrierMaster />;
+        return <Portpair />;
       case 'Carrier Master':
         return <CarrierMaster />;
       case 'Carrier Buy':
