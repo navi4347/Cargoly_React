@@ -109,7 +109,8 @@ export default function PersistentDrawerLeft() {
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
-    if (!token) {
+    const role = sessionStorage.getItem('role');
+    if (!token || role !== 'ROLE_Employee') {
       navigate('/');
     } else {
       setLoading(false);
